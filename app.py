@@ -2,6 +2,7 @@ import streamlit as st
 import numpy as np
 import pandas as pd
 import joblib
+import matplotlib.pyplot as plt
 
 # Load model and scaler
 try:
@@ -13,11 +14,22 @@ except:
 # Set page configuration
 st.set_page_config(page_title="Breast Cancer Prediction", layout="wide")
 
-# Apply custom styling
+# Apply custom background
+page_bg_img = """
+<style>
+body {
+    background-image: url("https://source.unsplash.com/1600x900/?health,hospital,medical");
+    background-size: cover;
+}
+</style>
+"""
+st.markdown(page_bg_img, unsafe_allow_html=True)
+
+# Custom CSS for UI
 st.markdown("""
     <style>
     .main {
-        background-color: #fdfdfd;
+        background-color: #ffffff;
         padding: 20px;
     }
     .stApp {
@@ -94,5 +106,16 @@ with col2:
         result = "⚠ Malignant (Cancerous)" if prediction[0] == 1 else "✅ Benign (Non-Cancerous)"
         st.success(f"🎯 Prediction: **{result}**")
 
+# Visualizing Feature Importance (Mock Example)
+st.subheader("📊 Feature Importance")
+feature_importance = np.random.rand(len(feature_names))  # Mock importance values
+fig, ax = plt.subplots()
+ax.barh(feature_names[:10], feature_importance[:10], color="#ff4b4b")
+ax.set_xlabel("Importance Score")
+ax.set_ylabel("Features")
+ax.set_title("Top 10 Most Important Features")
+st.pyplot(fig)
+
 # Footer
 st.markdown('<p class="footer">Developed with ❤️ using Streamlit</p>', unsafe_allow_html=True)
+
